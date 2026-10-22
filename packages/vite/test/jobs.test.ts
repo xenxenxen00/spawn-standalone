@@ -100,7 +100,8 @@ worker.postMessage({type:'run', requestId:1, moduleUrl:'cpu', job:{}, args:{n:21
       await page.goto(server.resolvedUrls!.local[0]!);
       await page.waitForFunction(() => document.body.dataset.result || document.body.dataset.error);
       expect(await page.getAttribute('body', 'data-error'), JSON.stringify({ requests, errors })).toBeNull();
-      expect(JSON.parse((await page.getAttribute('body', 'data-result'))!)).toMatchObject({ type: 'result', requestId: 1, data: 'think-marker-7f3a:21' });
+      const result = JSON.parse((await page.getAttribute('body', 'data-result'))!);
+      expect(result, JSON.stringify({ result, requests, errors })).toMatchObject({ type: 'result', requestId: 1, data: 'think-marker-7f3a:21' });
       expect(requests.some((url) => url.includes('worker_file'))).toBe(true);
       expect(requests.some((url) => /\u0000|%00/.test(url))).toBe(false);
     } finally {
