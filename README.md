@@ -42,7 +42,7 @@ See the [runtime API](docs/api.md) for exact options and the [verification scope
 
 | You bring | Details |
 | --- | --- |
-| **Development tools** | Git, Node.js **24 or newer**, npm, and a modern browser. The local rendering checks use WebGL2. The initial dependency install needs internet access. |
+| **Development tools** | Git, Node.js **24 or newer**, npm, and a modern browser. The local rendering checks use WebGL2. The initial dependency install needs internet access. Serve builds over HTTP(S); `dev` provides a local server. |
 | **Your game export and rights to its content** | For a real port: `export-info.json`, `source/`, `asset-manifest.json` and `assets/cdn/`. Engine documentation in `reference/` is optional. Keep the export intact. |
 | **Porting and testing work** | Review coverage, record edits, choose save keys, configure UI/controls and test the game. This is a developer toolchain, not a one-click conversion service. |
 | **Optional adapters** | Supply SQL schemas, job modules and any music, achievement, leaderboard or backend integration your game needs. Touch controls require a game-specific scheme. |
