@@ -1,0 +1,44 @@
+{
+  "name": "@spawn-standalone/cli",
+  "version": "1.0.0",
+  "description": "spawn-standalone converter CLI: coverage, import, assets, build and package for a Spawn game export",
+  "type": "module",
+  "bin": {
+    "spawn-standalone": "./dist/src/bin.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/src/index.d.ts",
+      "import": "./dist/src/index.js",
+      "default": "./dist/src/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "NOTICE",
+    "THIRD_PARTY_NOTICES.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@spawn-standalone/runtime": "1.0.0",
+    "@spawn-standalone/vite": "1.0.0",
+    "@playgama/bridge": "2.3.1",
+    "@playwright/test": "1.64.0",
+    "acorn": "8.19.0",
+    "acorn-walk": "8.3.5",
+    "fflate": "0.8.3",
+    "js-yaml": "5.4.3",
+    "sharp": "0.35.5",
+    "sql.js": "1.15.1",
+    "vite": "8.3.3",
+    "yaml": "2.9.1"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "name": "@spawn-standalone/testing",
+  "version": "1.0.0",
+  "description": "Test fakes, fixture worlds and browser-test configuration for games built on the runtime",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/src/index.d.ts",
+      "import": "./dist/src/index.js",
+      "default": "./dist/src/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "NOTICE",
+    "THIRD_PARTY_NOTICES.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,267 @@
+/* The live realm's base styles around the game UI (host CSS, no game/ edit; WP Q6 / M5 ui-pixels).
+   Source: the live realm head of docs/reference/original/ui-welcome-1.html: `<style id="tome-ui-styles">` (lines 77-116)
+   and the Tailwind v3.4.14 preflight that opens `<style id="tome-ui-cooked">` (lines 233-618). The game's own CSS
+   (scripts/ui/theme.js, hoisted into #ss-style) was written against these rules: buttons inherit the panel's font,
+   line-height and letter-spacing, every box is border-box, headings and paragraphs have no margins, replaced elements are
+   blocks. Without them the nav buttons of the menu measured 157.6 x 29.5 px instead of the live 184.7 x 26.2 px.
+
+   Scope: only the game UI container. Every preflight selector is prefixed with `:where(#tome-ui-container)`, which adds no
+   specificity, so each rule keeps the live specificity (`button` 0,0,1; `[hidden]` 0,1,0) against the game's own rules,
+   and nothing reaches the port chrome (#port-chrome, a body sibling), the blood lens (#tome-game-mount) or the canvas. The
+   live `html` rule (line-height 1.5, the sans stack) is inherited by the container there; here the container carries it.
+
+   Not carried: the `--tw-*` variable defaults of the cooked sheet (they serve Tailwind v3 utilities; the port's utilities are
+   compiled by ssTailwind with their own defaults), the platform's `@layer spawn-grant` pointer-events grant and the
+   `.spawn-ui-link-down` reconnect filter (Spawn platform input/network features, docs/analysis/live-vs-leftover.md), the
+   `#tome-creator-*` rules (no creator UI in the port). */
+
+/* ── tome-ui-styles: the container ─────────────────────────────────────────────────────────────────────────────────── */
+
+#tome-ui-container {
+  /* live: html { line-height: 1.5; tab-size: 4; ... } (preflight), inherited by the container */
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  -moz-tab-size: 4;
+  tab-size: 4;
+  font-feature-settings: normal;
+  font-variation-settings: normal;
+  -webkit-tap-highlight-color: transparent;
+  /* live: #tome-ui-container, #tome-creator-ui { font-family: 'Geist', system-ui, sans-serif; } */
+  font-family: 'Geist', system-ui, sans-serif;
+}
+
+:where(#tome-ui-container) :where([data-world-anchor]) { position: absolute; left: 0; top: 0; }
+:where(#tome-ui-container) :where([data-world-anchor][data-anchor-shown]) { will-change: transform; }
+
+:where(#tome-ui-container) :where(button, input, select, textarea) {
+  font-family: inherit;
+}
+
+#tome-ui-container img:not([draggable="true"]) {
+  -webkit-user-drag: none;
+}
+
+/* a modal panel dims its siblings (the HUD under an open menu) */
+#tome-ui-container *:has(> [data-modal]) > :not([data-modal]) {
+  opacity: 0.25;
+  pointer-events: none !important;
+  transition: opacity 0.2s;
+}
+
+/* ── tome-ui-cooked: Tailwind v3.4.14 preflight, scoped ────────────────────────────────────────────────────────────── */
+
+:where(#tome-ui-container) *,
+:where(#tome-ui-container) ::before,
+:where(#tome-ui-container) ::after {
+  box-sizing: border-box;
+  border-width: 0;
+  border-style: solid;
+  border-color: #e5e7eb;
+}
+
+:where(#tome-ui-container) ::before,
+:where(#tome-ui-container) ::after {
+  --tw-content: '';
+}
+
+:where(#tome-ui-container) hr {
+  height: 0;
+  color: inherit;
+  border-top-width: 1px;
+}
+
+:where(#tome-ui-container) abbr:where([title]) {
+  text-decoration: underline dotted;
+}
+
+:where(#tome-ui-container) h1,
+:where(#tome-ui-container) h2,
+:where(#tome-ui-container) h3,
+:where(#tome-ui-container) h4,
+:where(#tome-ui-container) h5,
+:where(#tome-ui-container) h6 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+:where(#tome-ui-container) a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+:where(#tome-ui-container) b,
+:where(#tome-ui-container) strong {
+  font-weight: bolder;
+}
+
+:where(#tome-ui-container) code,
+:where(#tome-ui-container) kbd,
+:where(#tome-ui-container) samp,
+:where(#tome-ui-container) pre {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-feature-settings: normal;
+  font-variation-settings: normal;
+  font-size: 1em;
+}
+
+:where(#tome-ui-container) small {
+  font-size: 80%;
+}
+
+:where(#tome-ui-container) sub,
+:where(#tome-ui-container) sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+:where(#tome-ui-container) sub {
+  bottom: -0.25em;
+}
+
+:where(#tome-ui-container) sup {
+  top: -0.5em;
+}
+
+:where(#tome-ui-container) table {
+  text-indent: 0;
+  border-color: inherit;
+  border-collapse: collapse;
+}
+
+:where(#tome-ui-container) button,
+:where(#tome-ui-container) input,
+:where(#tome-ui-container) optgroup,
+:where(#tome-ui-container) select,
+:where(#tome-ui-container) textarea {
+  font-family: inherit;
+  font-feature-settings: inherit;
+  font-variation-settings: inherit;
+  font-size: 100%;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+:where(#tome-ui-container) button,
+:where(#tome-ui-container) select {
+  text-transform: none;
+}
+
+:where(#tome-ui-container) button,
+:where(#tome-ui-container) input:where([type='button']),
+:where(#tome-ui-container) input:where([type='reset']),
+:where(#tome-ui-container) input:where([type='submit']) {
+  -webkit-appearance: button;
+  background-color: transparent;
+  background-image: none;
+}
+
+:where(#tome-ui-container) progress {
+  vertical-align: baseline;
+}
+
+:where(#tome-ui-container) ::-webkit-inner-spin-button,
+:where(#tome-ui-container) ::-webkit-outer-spin-button {
+  height: auto;
+}
+
+:where(#tome-ui-container) [type='search'] {
+  -webkit-appearance: textfield;
+  outline-offset: -2px;
+}
+
+:where(#tome-ui-container) ::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+:where(#tome-ui-container) ::-webkit-file-upload-button {
+  -webkit-appearance: button;
+  font: inherit;
+}
+
+:where(#tome-ui-container) summary {
+  display: list-item;
+}
+
+:where(#tome-ui-container) blockquote,
+:where(#tome-ui-container) dl,
+:where(#tome-ui-container) dd,
+:where(#tome-ui-container) h1,
+:where(#tome-ui-container) h2,
+:where(#tome-ui-container) h3,
+:where(#tome-ui-container) h4,
+:where(#tome-ui-container) h5,
+:where(#tome-ui-container) h6,
+:where(#tome-ui-container) hr,
+:where(#tome-ui-container) figure,
+:where(#tome-ui-container) p,
+:where(#tome-ui-container) pre {
+  margin: 0;
+}
+
+:where(#tome-ui-container) fieldset {
+  margin: 0;
+  padding: 0;
+}
+
+:where(#tome-ui-container) legend {
+  padding: 0;
+}
+
+:where(#tome-ui-container) ol,
+:where(#tome-ui-container) ul,
+:where(#tome-ui-container) menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+:where(#tome-ui-container) dialog {
+  padding: 0;
+}
+
+:where(#tome-ui-container) textarea {
+  resize: vertical;
+}
+
+:where(#tome-ui-container) input::placeholder,
+:where(#tome-ui-container) textarea::placeholder {
+  opacity: 1;
+  color: #9ca3af;
+}
+
+:where(#tome-ui-container) button,
+:where(#tome-ui-container) [role="button"] {
+  cursor: pointer;
+}
+
+:where(#tome-ui-container) :disabled {
+  cursor: default;
+}
+
+:where(#tome-ui-container) img,
+:where(#tome-ui-container) svg,
+:where(#tome-ui-container) video,
+:where(#tome-ui-container) canvas,
+:where(#tome-ui-container) audio,
+:where(#tome-ui-container) iframe,
+:where(#tome-ui-container) embed,
+:where(#tome-ui-container) object {
+  display: block;
+  vertical-align: middle;
+}
+
+:where(#tome-ui-container) img,
+:where(#tome-ui-container) video {
+  max-width: 100%;
+  height: auto;
+}
+
+:where(#tome-ui-container) [hidden]:where(:not([hidden="until-found"])) {
+  display: none;
+}

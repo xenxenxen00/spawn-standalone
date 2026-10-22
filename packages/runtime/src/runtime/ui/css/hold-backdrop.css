@@ -1,0 +1,104 @@
+/* The hold presentation of the LOADING gate (docs/architecture.md §5.3; io §3.2, §3.8, §3.10; WP X2), built by
+   ../chrome/hold-backdrop.ts. The backdrop itself is styled inline (it must be opaque even before this sheet has loaded);
+   this sheet lays out its progress bar and the RETRY / LEAVE card of a failed need. Literal colours: the game's tokens live
+   on #game and do not reach these layers. */
+
+/* the port's progress bar: the game's LOADING card has none. On the bottom edge of the stage (the ≤ 2:1 letterbox of
+   src/boot/stage-fit.ts publishes --ss-stage-*), as thin as the boot screen's */
+.ss-hold-bar {
+  position: absolute;
+  left: var(--ss-stage-x, 0px);
+  top: calc(var(--ss-stage-y, 0px) + var(--ss-stage-h, 100%) - 3px);
+  width: var(--ss-stage-w, 100%);
+  height: 3px;
+  background: rgba(217, 212, 204, 0.16);
+  overflow: hidden;
+}
+
+.ss-hold-bar > i {
+  display: block;
+  height: 100%;
+  background: var(--ss-accent, #4d90fe);
+  transition: width 0.2s linear;
+}
+
+/* a need failed: the card covers the page (so no click reaches the canvas and takes the pointer lock) above the port chrome */
+.ss-hold-error {
+  display: grid;
+  place-items: center;
+  background: rgba(11, 10, 12, 0.72);
+  color: #d9d4cc;
+  font-family: var(--ss-font, system-ui, sans-serif);
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.ss-hold-box {
+  width: min(440px, 82%);
+  padding: 26px 28px 24px;
+  text-align: center;
+  background: linear-gradient(180deg, rgba(34, 35, 41, 0.92), rgba(11, 11, 14, 0.9));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-left: 3px solid var(--ss-accent, #4d90fe);
+  border-radius: 4px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5);
+}
+
+.ss-hold-title {
+  font-family: var(--ss-font, system-ui, sans-serif);
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: 0.2em;
+  margin-bottom: 14px;
+}
+
+.ss-hold-text {
+  margin: 0 0 22px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #a8a29a;
+}
+
+.ss-hold-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.ss-hold-action {
+  font: inherit;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: var(--ss-background, #000);
+  background: #d9d4cc;
+  border: 0;
+  padding: 10px 26px;
+  cursor: pointer;
+}
+
+.ss-hold-action:hover,
+.ss-hold-action:focus-visible {
+  background: #ffffff;
+}
+
+.ss-hold-action[data-act='leave'] {
+  color: #d9d4cc;
+  background: transparent;
+  box-shadow: inset 0 0 0 1px rgba(217, 212, 204, 0.4);
+}
+
+.ss-hold-action[data-act='leave']:hover,
+.ss-hold-action[data-act='leave']:focus-visible {
+  background: rgba(217, 212, 204, 0.12);
+}
+
+.ss-hold-action:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ss-hold-bar > i {
+    transition: none;
+  }
+}

@@ -1,0 +1,273 @@
+/* Port chrome (io §3.10, §3.2): the port's own overlays, plain DOM in #port-chrome, set in Geist so they read as platform
+   chrome and not as game UI (io §3.8), with the game's tokens repeated as literals (--crim and the glass panel of
+   scripts/ui/theme.js live on #game and do not reach this layer).
+   The resume prompt is WP UI2a's; the layer, the rail, the pause overlay, the flash overlay, the trophy toast and the damage
+   numbers below are UI2b's (the rotate prompt is the touch layer's, touch.css). */
+
+/* Resume prompt (io §3.9 row 3): "CLICK TO RESUME" over a 35 % dim. The whole layer takes the click. It is not a modal (no
+   data-modal, the sim keeps running). z-index 20 is the chrome layer of io §3.2, above the HUD (10), the blood lens (11) and
+   the touch layer (12). */
+.pc-resume {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.35);
+  pointer-events: auto;
+  cursor: pointer;
+  font-family: var(--ss-font, system-ui, sans-serif);
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* display:flex above would beat the UA rule of the hidden attribute */
+.pc-resume[hidden] { display: none; }
+
+.pc-resume-plate {
+  padding: 0.75em 1.7em;
+  color: #fff;
+  font-size: clamp(13px, 2.4vmin, 22px);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  white-space: nowrap;
+  background: linear-gradient(180deg, rgba(34, 35, 41, 0.8), rgba(11, 11, 14, 0.74));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-left: 3px solid var(--ss-accent, #4d90fe);
+  border-radius: 4px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 10px 28px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.4);
+  -webkit-backdrop-filter: blur(10px) saturate(1.15);
+  backdrop-filter: blur(10px) saturate(1.15);
+}
+
+/* ── UI2b ─────────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+/* The layer (io §3.2): a <body> child at z-index 20, above the HUD container (10), the blood lens (11) and the touch layer
+   (12). It takes no input itself; the rail, the pause overlay and the buttons turn it on for their own boxes. Inside it the
+   flash sits lowest, then the damage numbers, the rail, the trophy toast (30) and the pause overlay (40) on top. */
+#port-chrome {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  font-family: var(--ss-font, system-ui, sans-serif);
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* every rule below sets a display; the hidden attribute must still win (rail PAUSE, pause overlay, flash) */
+#port-chrome [hidden] { display: none !important; }
+
+/* Rail (io §3.10): inside the Spawn rail band of root-vars.css (right 0, top 180 px, 50 x 360 px); on a phone in landscape
+   it re-centres, because 180 + 360 exceeds a 390 px height. The opacity (.35 locked, .9 free) is set by rail.ts. */
+#port-chrome .ss-rail {
+  position: absolute;
+  right: 0;
+  top: max(8px, calc(50vh - 180px));
+  width: 50px;
+  height: min(360px, calc(100vh - 16px));
+  z-index: 2;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  pointer-events: auto;
+  transition: opacity 0.15s linear;
+}
+
+#port-chrome .ss-rail-btn {
+  position: relative;
+  box-sizing: border-box;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background: linear-gradient(180deg, rgba(34, 35, 41, 0.8), rgba(11, 11, 14, 0.74));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 2px 6px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  font: inherit;
+}
+
+#port-chrome .ss-rail-btn:hover { border-color: rgba(255, 255, 255, 0.28); }
+#port-chrome .ss-rail-btn:focus-visible { outline: 2px solid var(--ss-accent, #4d90fe); outline-offset: 1px; }
+
+#port-chrome .ss-rail-btn svg {
+  display: block;
+  width: 22px;
+  height: 22px;
+  fill: currentColor;
+}
+
+/* MUTE: slashed while the player or the platform has muted (rail.ts `is-muted`) */
+#port-chrome .ss-rail-mute.is-muted::after {
+  content: '';
+  position: absolute;
+  left: 7px;
+  right: 7px;
+  top: 50%;
+  height: 2px;
+  margin-top: -1px;
+  background: var(--ss-accent, #4d90fe);
+  border-radius: 1px;
+  transform: rotate(-45deg);
+}
+
+/* the small PLATFORM tag under the icon while the platform itself is muted */
+#port-chrome .ss-platform-tag {
+  position: absolute;
+  left: 50%;
+  bottom: 1px;
+  transform: translateX(-50%);
+  font-size: 7px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.85);
+  white-space: nowrap;
+}
+
+/* Pause overlay (io §3.10): a chrome modal over the whole viewport; the dialog is the glass panel of the resume prompt */
+#port-chrome .ss-pause {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.55);
+  pointer-events: auto;
+}
+
+#port-chrome .ss-pause-dialog {
+  box-sizing: border-box;
+  min-width: min(300px, calc(100vw - 32px));
+  padding: 1.4em 1.8em 1.1em;
+  color: #fff;
+  text-align: center;
+  background: linear-gradient(180deg, rgba(34, 35, 41, 0.86), rgba(11, 11, 14, 0.8));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-left: 3px solid var(--ss-accent, #4d90fe);
+  border-radius: 4px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 10px 28px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.4);
+  -webkit-backdrop-filter: blur(10px) saturate(1.15);
+  backdrop-filter: blur(10px) saturate(1.15);
+}
+
+#port-chrome .ss-pause-reason {
+  margin: 0 0 1em;
+  font-size: clamp(16px, 3vmin, 26px);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+#port-chrome .ss-pause-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#port-chrome .ss-pause-actions button {
+  padding: 0.6em 1.2em;
+  color: #fff;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+#port-chrome .ss-pause-actions button:hover { background: rgba(255, 255, 255, 0.12); }
+#port-chrome .ss-pause-actions button:focus-visible { outline: 2px solid var(--ss-accent, #4d90fe); outline-offset: 1px; }
+
+#port-chrome .ss-pause-hint {
+  margin: 1em 0 0;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  opacity: 0.7;
+}
+
+/* Flash overlay (io §5.5, opt-in DAMAGE FLASH): full screen under everything else of the layer; flash-overlay.ts sets the
+   opacity (capped at .25) and the act's colour, white otherwise */
+#port-chrome .ss-flash {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-color: #fff;
+  pointer-events: none;
+}
+
+/* Damage numbers: one label per act at the projected point (damage-numbers.ts sets left/top, colour, size and lifetime) */
+#port-chrome .ss-damage-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+#port-chrome .ss-damage {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  color: #fff;
+  font-size: calc(16px * var(--ss-dmg-size, 1));
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.85), 0 0 6px rgba(0, 0, 0, 0.5);
+  animation: ss-damage-rise var(--ss-dmg-life, 900ms) ease-out forwards;
+}
+
+@keyframes ss-damage-rise {
+  from { opacity: 1; translate: 0 0; }
+  70% { opacity: 1; }
+  to { opacity: 0; translate: 0 -32px; }
+}
+
+/* Trophy toast (toast.ts TOAST_Z_INDEX): z-index 30, below the pause overlay, beside the rail band */
+#port-chrome .ss-toast {
+  position: absolute;
+  z-index: 30;
+  top: max(8px, calc(50vh - 180px));
+  right: 62px;
+  box-sizing: border-box;
+  max-width: min(320px, calc(100vw - 90px));
+  padding: 0.7em 1.1em;
+  color: #fff;
+  background: linear-gradient(180deg, rgba(34, 35, 41, 0.86), rgba(11, 11, 14, 0.8));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-left: 3px solid var(--ss-accent, #4d90fe);
+  border-radius: 4px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+
+#port-chrome .ss-toast-title {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+#port-chrome .ss-toast-sub {
+  margin-top: 0.3em;
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #port-chrome .ss-damage { animation: none; }
+  #port-chrome .ss-rail { transition: none; }
+}

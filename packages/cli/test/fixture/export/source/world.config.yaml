@@ -1,0 +1,13 @@
+# a small fixture world
+name: "Fixture"
+camera: templates/camera.js#camera
+player: templates/player.js#player
+lighting: scripts/lighting.js
+defaultPlace: main
+ui:
+  render: scripts/ui.js
+nametag: ui/nametag.js
+inputs:
+  actions:
+    go:
+      keys: [space]

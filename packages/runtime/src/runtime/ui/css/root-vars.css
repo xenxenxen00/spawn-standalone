@@ -1,0 +1,51 @@
+/* Root variables and host layers of the UI host (io §3.2, §3.8; build §3.5).
+   H01 (X-19): the Spawn platform rail band keeps its live values (docs/reference/original/ui-welcome-1.html): every panel, the
+   kill feed and the bottom-right cluster lay out exactly as in the live captures, and the port's own chrome (mute, pause,
+   fullscreen) lives in that band (io §3.10). The game reads these through var() in its own CSS. */
+:root {
+  --spawn-chrome-reservation-right-inset: 50px;
+  --spawn-chrome-reservation-right-top: 180px;
+  --spawn-chrome-reservation-right-height: 360px;
+  --spawn-safe-area-top: env(safe-area-inset-top, 0px);
+  --spawn-safe-area-right: env(safe-area-inset-right, 0px);
+  --spawn-safe-area-bottom: env(safe-area-inset-bottom, 0px);
+  --spawn-safe-area-left: env(safe-area-inset-left, 0px);
+  --spawn-touch-corner-band-height: 0px;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--ss-background, #000); /* build §3.5 shell colour (io §3.8 says #000; the menu backdrop is var(--ss-background, #000), main.js:116) */
+  overscroll-behavior: none;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* the HUD render target: the hoisted style, the sprite and #ss-root (the game's #game lives inside); #game itself is
+   position:fixed with pointer-events:none and turns them on for its panels (scripts/ui/theme.js) */
+#tome-ui-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* the onMount container: the blood lens (scripts/gore/screen.js) draws here, above the HUD */
+#tome-game-mount {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 11;
+}
+
+/* hidden by size, never display:none: gradients inside a display:none svg do not paint */
+#ss-sprites {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}

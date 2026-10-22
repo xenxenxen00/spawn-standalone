@@ -1,0 +1,24 @@
+{
+  "name": "Tiny Sky Hop",
+  "slug": "tiny-sky-hop",
+  "version": "1.2.3",
+  "source": { "dir": ".", "commit": "0000000000000000000000000000000000000000" },
+  "platform": {
+    "target": "playgama",
+    "playgama": {
+      "orientation": "landscape",
+      "ads": {
+        "interstitial": [{ "id": "run_end", "at": "the results screen after a run" }],
+        "rewarded": [{ "id": "extra_life", "at": "the continue prompt" }],
+        "minimumDelayBetweenInterstitial": 150
+      }
+    }
+  },
+  "budgets": { "initialBytes": 2000000, "maxFiles": 50, "perFile": [{ "match": "**/*.js", "bytes": 1000000 }] },
+  "credits": [{ "name": "Hop sound", "author": "Fixture Author", "licence": "CC0-1.0" }],
+  "covers": {
+    "shots": [{ "id": "title", "waitMs": 300 }, { "id": "play", "query": "?cover=play", "waitMs": 300 }],
+    "readySelector": "body[data-booted]",
+    "script": "capture.mjs"
+  }
+}

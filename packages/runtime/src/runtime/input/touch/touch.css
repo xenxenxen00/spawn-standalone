@@ -1,0 +1,16 @@
+.ss-touch-controls, [data-touch-root] {
+  position: fixed; inset: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  z-index: 0; overflow: hidden; touch-action: none; user-select: none; -webkit-user-select: none; pointer-events: auto;
+}
+.ss-touch-controls[hidden], [data-touch-root][hidden] { display: none; }
+.ss-touch-button {
+  position: absolute; left: var(--touch-x); top: var(--touch-y); width: var(--touch-size); height: var(--touch-size);
+  transform: translate(-50%, -50%); border: 1px solid var(--hair2, rgba(255,255,255,.22)); border-radius: 50%; padding: 0 5px;
+  color: var(--ink, #eee); background: var(--panel-a, rgba(12,13,16,.52)); box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
+  font: 600 calc(11px * var(--touch-scale,1))/1 var(--ss-font, system-ui, sans-serif); letter-spacing: .02em; text-shadow: 0 1px 2px #000; opacity: .55; pointer-events: auto; touch-action: none;
+}
+.ss-touch-button[data-pressed="true"] { transform: translate(-50%, calc(-50% + 2px)); background: var(--panel-b, rgba(20,22,27,.82)); opacity: .9; }
+.ss-touch-stick { position: absolute; width: calc(var(--stick-size) * var(--touch-scale,1)); height: calc(var(--stick-size) * var(--touch-scale,1)); border: 1px solid var(--hair2,rgba(255,255,255,.24)); border-radius: 50%; background: rgba(12,13,16,.3); transform: translate(-50%,-50%); pointer-events: none; }
+.ss-touch-stick::after { content: ''; position: absolute; width: 42%; height: 42%; left: calc(50% + var(--stick-x,0px)); top: calc(50% + var(--stick-y,0px)); transform: translate(-50%,-50%); border: 1px solid rgba(255,255,255,.34); border-radius: 50%; background: rgba(255,255,255,.16); }
+.ss-touch-rotate { position: fixed; inset: 0; z-index: 1; display: grid; place-items: center; padding: 24px; color: var(--ink,#eee); background: rgba(0,0,0,.96); font: 600 20px/1.4 var(--ss-font,system-ui,sans-serif); text-align: center; }
+.ss-touch-rotate[hidden] { display: none; }

@@ -1,0 +1,29 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "types": [
+      "node",
+      "vite/client"
+    ],
+    "lib": [
+      "es2023",
+      "dom",
+      "dom.iterable",
+      "webworker.importscripts"
+    ],
+    "paths": {
+      "builtin/*": [
+        "./packages/runtime/src/compat/builtin/*"
+      ]
+    }
+  },
+  "include": [
+    "packages/*/src/**/*.ts",
+    "packages/*/test/**/*.ts",
+    "packages/runtime/tests/**/*.ts",
+    "packages/runtime/src/**/*.d.ts",
+    "tools/**/*.ts",
+    "vitest.config.ts"
+  ],
+  "exclude": []
+}

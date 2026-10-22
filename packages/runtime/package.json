@@ -1,0 +1,114 @@
+{
+  "name": "@spawn-standalone/runtime",
+  "version": "1.0.0",
+  "description": "Spawn-compatible engine runtime on three.js + Rapier: kernel, ctx realms, builtins, render, input, audio, UI host, host ports",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/src/index.d.ts",
+      "import": "./dist/src/index.js",
+      "default": "./dist/src/index.js"
+    },
+    "./package.json": "./package.json",
+    "./shell": {
+      "types": "./dist/src/shell/index.d.ts",
+      "import": "./dist/src/shell/index.js",
+      "default": "./dist/src/shell/index.js"
+    },
+    "./capabilities": {
+      "types": "./dist/capabilities/types.d.ts",
+      "import": "./dist/capabilities/types.js",
+      "default": "./dist/capabilities/types.js"
+    },
+    "./motion/clip": {
+      "types": "./dist/src/compat/motion/clip.d.ts",
+      "import": "./dist/src/compat/motion/clip.js",
+      "default": "./dist/src/compat/motion/clip.js"
+    },
+    "./motion/cook-authored": {
+      "types": "./dist/src/compat/motion/cook-authored.d.ts",
+      "import": "./dist/src/compat/motion/cook-authored.js",
+      "default": "./dist/src/compat/motion/cook-authored.js"
+    },
+    "./jobs": {
+      "types": "./dist/src/ports/jobs/index.d.ts",
+      "import": "./dist/src/ports/jobs/index.js",
+      "default": "./dist/src/ports/jobs/index.js"
+    },
+    "./jobs/worker": {
+      "types": "./dist/src/ports/jobs/job-runner.d.ts",
+      "import": "./dist/src/ports/jobs/job-runner.js",
+      "default": "./dist/src/ports/jobs/job-runner.js"
+    },
+    "./sql": {
+      "types": "./dist/src/ports/sql/index.d.ts",
+      "import": "./dist/src/ports/sql/index.js",
+      "default": "./dist/src/ports/sql/index.js"
+    },
+    "./geometry/worker": {
+      "types": "./dist/src/render/geometry/geometry-worker.d.ts",
+      "import": "./dist/src/render/geometry/geometry-worker.js",
+      "default": "./dist/src/render/geometry/geometry-worker.js"
+    },
+    "./plugins/gore": {
+      "types": "./dist/src/render/plugins/gore.d.ts",
+      "import": "./dist/src/render/plugins/gore.js",
+      "default": "./dist/src/render/plugins/gore.js"
+    },
+    "./capabilities.json": "./dist/capabilities/capabilities.json",
+    "./builtin/*": {
+      "types": "./dist/src/compat/builtin/*.d.ts",
+      "import": "./dist/src/compat/builtin/*.js",
+      "default": "./dist/src/compat/builtin/*.js"
+    },
+    "./styles/*": "./dist/src/runtime/ui/css/*",
+    "./jobs/node": {
+      "types": "./dist/src/ports/jobs/node-worker.d.ts",
+      "import": "./dist/src/ports/jobs/node-worker.js",
+      "default": "./dist/src/ports/jobs/node-worker.js"
+    },
+    "./assets": {
+      "types": "./dist/src/assets/index-types.d.ts"
+    },
+    "./touch.css": "./dist/src/runtime/input/touch/touch.css",
+    "./boot": {
+      "types": "./dist/src/compat/core/boot/boot.d.ts",
+      "import": "./dist/src/compat/core/boot/boot.js",
+      "default": "./dist/src/compat/core/boot/boot.js"
+    },
+    "./registry": {
+      "types": "./dist/src/compat/core/modules/registry.d.ts",
+      "import": "./dist/src/compat/core/modules/registry.js",
+      "default": "./dist/src/compat/core/modules/registry.js"
+    }
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "NOTICE",
+    "THIRD_PARTY_NOTICES.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@dimforge/rapier3d-simd-compat": "0.21.0",
+    "@playgama/bridge": "2.3.1",
+    "fflate": "0.8.3",
+    "idiomorph": "0.8.0",
+    "sql.js": "1.15.1",
+    "three": "0.186.1"
+  },
+  "peerDependencies": {
+    "@types/three": "0.186.0"
+  },
+  "peerDependenciesMeta": {
+    "@types/three": {
+      "optional": true
+    }
+  }
+}

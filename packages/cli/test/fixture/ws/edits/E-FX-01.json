@@ -1,0 +1,14 @@
+{
+  "id": "E-FX-01",
+  "title": "Standalone title and an added helper",
+  "rationale": "fixture: one op of each kind",
+  "cites": ["fixture"],
+  "files": ["scripts/ui.js", "world.config.yaml", "scripts/added.js"],
+  "ops": [
+    { "op": "yamlSet", "path": "world.config.yaml", "key": ["name"], "value": "Fixture SA", "expectOld": "Fixture" },
+    { "op": "yamlDelete", "path": "world.config.yaml", "key": ["nametag"] },
+    { "op": "addFile", "path": "scripts/added.js", "from": "edits/added.js" },
+    { "op": "replaceExact", "path": "scripts/ui.js", "from": "import DATA from './lib/data.yml';", "to": "import DATA from './lib/data.yml';\nimport { added } from './added.js';", "note": "pull in the added helper" },
+    { "op": "replaceExact", "path": "scripts/ui.js", "from": "${DATA.title}", "to": "${DATA.title}${added()}" }
+  ]
+}

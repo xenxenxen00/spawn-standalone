@@ -1,0 +1,4 @@
+# spawn-scene v2 yaml x0z0
+spinner:
+  feetPosition: { x: 1, y: 0, z: 1 }
+  behavior: scripts/spin.js

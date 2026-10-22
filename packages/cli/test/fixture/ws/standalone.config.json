@@ -1,0 +1,7 @@
+{
+  "name": "Fixture",
+  "slug": "fixture",
+  "source": { "dir": "../export/source" },
+  "edits": { "dir": "edits", "order": "edits/order.yml" },
+  "flags": "flags.json"
+}

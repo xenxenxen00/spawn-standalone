@@ -1,0 +1,45 @@
+{
+  "name": "@spawn-standalone/vite",
+  "version": "1.0.0",
+  "description": "Vite plugin that serves one converted Spawn game as virtual modules",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/src/index.d.ts",
+      "import": "./dist/src/index.js",
+      "default": "./dist/src/index.js"
+    },
+    "./package.json": "./package.json",
+    "./analysis": {
+      "types": "./dist/src/analysis/index.d.ts",
+      "import": "./dist/src/analysis/index.js",
+      "default": "./dist/src/analysis/index.js"
+    },
+    "./virtual": {
+      "types": "./dist/src/virtual.d.ts"
+    }
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "NOTICE",
+    "THIRD_PARTY_NOTICES.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@spawn-standalone/runtime": "1.0.0",
+    "acorn": "8.19.0",
+    "acorn-walk": "8.3.5",
+    "js-yaml": "5.4.3",
+    "three": "0.186.1"
+  },
+  "peerDependencies": {
+    "vite": "^8.3.3"
+  }
+}

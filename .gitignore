@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.cache/
+*.tsbuildinfo
+coverage-reports/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
