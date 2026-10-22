@@ -1,6 +1,7 @@
 # Public source maintenance
 
 - The runtime is game-independent: inject world/content/configuration; never import game implementations or virtual modules in runtime source. Vite owns virtual adapters.
+- Converted packages must retain the runtime MIT notice and adapted-source notices; license text is part of the archive checks.
 - Keep only synthetic test data. Do not add game exports, asset catalogs, authored program snapshots, credentials or private checkout paths. Preserve third-party attribution.
 - From the root, `npm ci` installs locked dependencies; `npm run check` builds package exports before typecheck/lint/tests. Rebuild after source edits because workspace imports resolve compiled entries.
 - Notice inventory comparisons normalize Git checkout line endings; keep real content drift fatal.

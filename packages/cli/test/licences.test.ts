@@ -16,6 +16,10 @@ describe('redistributed vendor license text', () => {
     const output = buildThirdParty({ name: 'Fixture', version: '1' }, entries, []);
     const apache = readFileSync(join(import.meta.dirname, '../../../node_modules/sharp/LICENSE'), 'utf8').trim();
     expect(output).toContain(apache);
+    expect(entries.find(entry => entry.name === '@spawn-standalone/runtime')?.text).toBeTruthy();
+    expect(output).toContain('Copyright (c) 2026 xenxenxen00 and contributors');
+    expect(output).toContain('Copyright (c) Tailwind Labs, Inc.');
+    expect(output).toContain('## Vendored three.js code');
     const decoder = readFileSync(join(import.meta.dirname, '../../../node_modules/three/examples/jsm/libs/meshopt_decoder.module.js'), 'utf8');
     const header = decoder.match(/^(?:\/\/[^\r\n]*\r?\n)+/)![0].trim();
     expect(output).toContain(header);

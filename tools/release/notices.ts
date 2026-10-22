@@ -58,6 +58,10 @@ export function dependencyNotices(): string {
   out.push('', '## Vendored three.js code', '',
     'The runtime includes an adapted three.js bloom/postprocessing implementation. The following',
     'copyright, permission notice and disclaimer apply to those vendored portions:', '', threeLicense, '');
+  out.push('', '## Adapted Tailwind CSS reset', '',
+    'The scoped UI reset derives from Tailwind CSS v3.4.14 preflight:',
+    'https://github.com/tailwindlabs/tailwindcss/tree/v3.4.14', '',
+    readFileSync(join(repository, 'tools/release/licenses/tailwind-3.4.14.txt'), 'utf8').replaceAll('\r\n', '\n').trim(), '');
   out.push('', 'The optional `@types/three` peer supplies public TypeScript types. The testing package has no',
     'production dependencies. The Playgama Bridge is LGPL-3.0-or-later; the project MIT license does',
     'not replace its license. Sharp\'s installed native package also includes libvips components under',

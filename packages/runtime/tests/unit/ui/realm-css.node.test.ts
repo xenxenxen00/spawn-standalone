@@ -4,7 +4,7 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 
-const css = readFileSync(new URL('../../../src/runtime/ui/css/realm.css', import.meta.url), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
+const css = readFileSync(new URL('../../../src/runtime/ui/css/realm.css', import.meta.url), 'utf8').replaceAll('\r\n', '\n').replace(/\/\*[\s\S]*?\*\//g, '');
 const host = readFileSync(new URL('../../../src/runtime/ui/ui-host.ts', import.meta.url), 'utf8');
 
 /** a selector list split on its top-level commas (not those inside `:where(…)`) */

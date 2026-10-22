@@ -66,6 +66,8 @@ describe('package --target playgama on the fixture game', () => {
     const third = new TextDecoder().decode(files['THIRD_PARTY.txt']);
     expect(third).toMatch(/@playgama\/bridge 2\.3\.1 \(LGPL-3\.0/);
     expect(third).toMatch(/three \d+\.\d+\.\d+ \(MIT\)/);
+    expect(third).toContain('Copyright (c) Tailwind Labs, Inc.');
+    expect(third).toContain('Copyright (c) 2026 xenxenxen00 and contributors');
     expect(third).toMatch(/Hop sound by Fixture Author \(CC0-1\.0\)/);
   });
 
