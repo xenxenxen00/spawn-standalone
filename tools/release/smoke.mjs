@@ -86,6 +86,11 @@ try {
  const output=join(game,'package/playgama');assert.equal(readdirSync(join(output,'covers')).length,3);assert.ok(readdirSync(join(output,'screenshots')).length>0);
  for(const image of readdirSync(join(output,'covers'))) {const metadata=await sharp(join(output,'covers',image)).metadata();assert.ok(metadata.width>0&&metadata.height>0);}
  const root=join(output,'dist');
+ const credits=readFileSync(join(root,'THIRD_PARTY.txt'),'utf8');
+ assert.ok(credits.includes('Copyright (c) Tailwind Labs, Inc.'));
+ assert.ok(credits.includes('Copyright (c) 2026 xenxenxen00 and contributors'));
+ assert.ok(credits.includes('## Vendored three.js code'));
+ console.log('PASS installed package retains runtime and adapted-source notices');
  const mime={'.js':'text/javascript','.css':'text/css','.html':'text/html','.wasm':'application/wasm','.svg':'image/svg+xml'};
  const server=createServer((req,res)=>{let p;try{p=resolve(root,'.'+new URL(req.url??'/','http://x').pathname.replace(/\/$/,'/index.html'));}catch{res.writeHead(400).end();return;}if(!p.startsWith(root+sep)||!existsSync(p)){res.writeHead(404).end();return;}res.setHeader('Content-Type',mime[extname(p)]??'application/octet-stream');createReadStream(p).pipe(res);});
  await new Promise(r=>server.listen(0,'127.0.0.1',r));

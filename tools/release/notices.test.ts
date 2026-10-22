@@ -14,6 +14,9 @@ describe('public release inventory and Windows workflow', () => {
     expect(notices).toContain('| yaml | 2.9.1 | ISC |');
     const threeLicense = readFileSync(join(repository, 'node_modules/three/LICENSE'), 'utf8').trim();
     expect(notices).toContain('## Vendored three.js code');
+    const tailwindLicense = readFileSync(join(repository, 'tools/release/licenses/tailwind-3.4.14.txt'), 'utf8').replaceAll('\r\n', '\n').trim();
+    expect(notices).toContain(tailwindLicense);
+    expect(notices).toContain('Copyright (c) Tailwind Labs, Inc.');
     expect(notices).toContain(threeLicense);
     expect(notices).toContain('Copyright © 2010-2026 three.js authors');
     expect(notices).toContain('Permission is hereby granted, free of charge');

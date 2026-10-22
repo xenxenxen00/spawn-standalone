@@ -1,19 +1,6 @@
-/* The live realm's base styles around the game UI (host CSS, no game/ edit; WP Q6 / M5 ui-pixels).
-   Source: the live realm head of docs/reference/original/ui-welcome-1.html: `<style id="tome-ui-styles">` (lines 77-116)
-   and the Tailwind v3.4.14 preflight that opens `<style id="tome-ui-cooked">` (lines 233-618). The game's own CSS
-   (scripts/ui/theme.js, hoisted into #ss-style) was written against these rules: buttons inherit the panel's font,
-   line-height and letter-spacing, every box is border-box, headings and paragraphs have no margins, replaced elements are
-   blocks. Without them the nav buttons of the menu measured 157.6 x 29.5 px instead of the live 184.7 x 26.2 px.
-
-   Scope: only the game UI container. Every preflight selector is prefixed with `:where(#tome-ui-container)`, which adds no
-   specificity, so each rule keeps the live specificity (`button` 0,0,1; `[hidden]` 0,1,0) against the game's own rules,
-   and nothing reaches the port chrome (#port-chrome, a body sibling), the blood lens (#tome-game-mount) or the canvas. The
-   live `html` rule (line-height 1.5, the sans stack) is inherited by the container there; here the container carries it.
-
-   Not carried: the `--tw-*` variable defaults of the cooked sheet (they serve Tailwind v3 utilities; the port's utilities are
-   compiled by ssTailwind with their own defaults), the platform's `@layer spawn-grant` pointer-events grant and the
-   `.spawn-ui-link-down` reconnect filter (Spawn platform input/network features, docs/analysis/live-vs-leftover.md), the
-   `#tome-creator-*` rules (no creator UI in the port). */
+/*! Scoped UI reset adapted from Tailwind CSS v3.4.14 preflight (MIT).
+    Copyright (c) Tailwind Labs, Inc.
+    Full permission and disclaimer: THIRD_PARTY_NOTICES.md. */
 
 /* ── tome-ui-styles: the container ─────────────────────────────────────────────────────────────────────────────────── */
 

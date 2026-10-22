@@ -9,3 +9,6 @@ included in the public source or packages. Game exports and assets retain their 
 
 Third-party dependencies retain their own copyright and license notices.
 See THIRD_PARTY_NOTICES.md for the dependency inventory and distribution details.
+
+The scoped UI reset adapts Tailwind CSS v3.4.14 preflight (MIT),
+Copyright (c) Tailwind Labs, Inc.; its full license is in THIRD_PARTY_NOTICES.md.

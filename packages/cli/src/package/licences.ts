@@ -116,6 +116,10 @@ export function collectLicences(gameDir: string, cfg: ResolvedPackageConfig, dis
       note: 'basis_transcoder.js / .wasm copied unmodified from three.js. The supplied files have no copyright header; their supplied README identifies Apache-2.0. Standard license text is preserved below.',
     });
   }
+  const runtimeLicence = readPackage(import.meta.dirname, '@spawn-standalone/runtime');
+  if (!runtimeLicence.text) throw new Error('licences: redistributed runtime has no license text');
+  runtimeLicence.text += '\n\n' + ['NOTICE', 'THIRD_PARTY_NOTICES.md'].map(name => readFileSync(join(runtime, name), 'utf8').trim()).join('\n\n');
+  out.unshift(runtimeLicence);
   return out;
 }
 
