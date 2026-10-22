@@ -3,12 +3,12 @@ import { join } from 'node:path';
 import { load } from 'js-yaml';
 import { describe, expect, it } from 'vitest';
 import { repository } from './build.ts';
-import { dependencyNotices } from './notices.ts';
+import { assertNoticesCurrent, dependencyNotices } from './notices.ts';
 
 describe('public release inventory and Windows workflow', () => {
   it('records actual non-MIT dependencies and keeps checkout paths private', () => {
     const notices = dependencyNotices();
-    expect(notices).toBe(readFileSync(join(repository, 'THIRD_PARTY_NOTICES.md'), 'utf8'));
+    assertNoticesCurrent(readFileSync(join(repository, 'THIRD_PARTY_NOTICES.md'), 'utf8'), notices);
     expect(notices).toContain('| @playgama/bridge | 2.3.1 | LGPL-3.0-or-later |');
     expect(notices).toContain('| idiomorph | 0.8.0 | 0BSD |');
     expect(notices).toContain('| yaml | 2.9.1 | ISC |');
@@ -33,4 +33,11 @@ describe('public release inventory and Windows workflow', () => {
     expect(commands.at(-1)).toContain('npm run release:check -- --out');
     expect(text).not.toMatch(/npm publish|git push|secrets\./);
   });
+});
+
+it('accepts Git checkout line endings but rejects stale notice contents', () => {
+  const expected = 'Notice inventory\nCopyright example\n';
+  expect(() => assertNoticesCurrent(expected.replaceAll('\n', '\r\n'), expected)).not.toThrow();
+  expect(() => assertNoticesCurrent(expected, expected)).not.toThrow();
+  expect(() => assertNoticesCurrent(expected.replace('example', 'changed'), expected)).toThrow('dependency notice inventory is stale');
 });

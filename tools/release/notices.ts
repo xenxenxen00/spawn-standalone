@@ -87,10 +87,14 @@ export function dependencyNotices(): string {
   return out.join('\n');
 }
 
+export function assertNoticesCurrent(actual: string, expected: string): void {
+  assert.equal(actual.replaceAll('\r\n', '\n'), expected.replaceAll('\r\n', '\n'), 'dependency notice inventory is stale');
+}
+
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const output = join(repository, 'THIRD_PARTY_NOTICES.md'); const text = dependencyNotices();
   assert.ok(!text.includes(repository));
-  if (process.argv.includes('--check')) assert.equal(readFileSync(output, 'utf8'), text, 'dependency notice inventory is stale');
+  if (process.argv.includes('--check')) assertNoticesCurrent(readFileSync(output, 'utf8'), text);
   else writeFileSync(output, text);
   console.log('dependency notice inventory verified');
 }
