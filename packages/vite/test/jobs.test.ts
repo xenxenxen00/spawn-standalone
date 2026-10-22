@@ -1,4 +1,5 @@
-import { cpSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, mkdtempSync, readdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -73,10 +74,18 @@ describe('vite build with the jobs plugin', () => {
 });
 
 describe('vite development job worker', () => {
-  it('executes a job through a browser-loadable worker URL', async () => {
-    const root = mkdtempSync(join(tmpdir(), 'ss-jobs-dev-'));
+  it.each(process.platform === 'win32' ? ['native', 'junction', 'short'] : ['native', 'junction'])('executes a job through a browser-loadable worker URL (%s path)', async (mode) => {
+    const directory = mkdtempSync(join(tmpdir(), 'ss-jobs-dev-'));
+    const root = join(directory, 'game');
     cpSync(join(fixture, 'jobs'), join(root, 'jobs'), { recursive: true });
     cpSync(join(fixture, 'lib'), join(root, 'lib'), { recursive: true });
+    let jobsRoot = root;
+    if (mode === 'junction') { jobsRoot = join(directory, 'alias'); symlinkSync(root, jobsRoot, 'junction'); }
+    if (mode === 'short') {
+      jobsRoot = execFileSync('powershell.exe', ['-NoProfile', '-NonInteractive', '-Command',
+        '[Console]::InputEncoding=[Text.Encoding]::UTF8; [Console]::OutputEncoding=[Text.Encoding]::UTF8; (New-Object -ComObject Scripting.FileSystemObject).GetFolder([Console]::In.ReadToEnd()).ShortPath'],
+      { input: root, encoding: 'utf8', windowsHide: true }).trim();
+    }
     writeFileSync(join(root, 'index.html'), `<script type="module">
 import { createJobWorker } from 'virtual:ss/jobs';
 const worker = createJobWorker();
@@ -84,7 +93,7 @@ worker.onerror = (event) => { document.body.dataset.error = event.message || eve
 worker.onmessage = (event) => { document.body.dataset.result = JSON.stringify(event.data); worker.terminate(); };
 worker.postMessage({type:'run', requestId:1, moduleUrl:'cpu', job:{}, args:{n:21}});
 </script>`);
-    const server = await createServer({ root, configFile: false, logLevel: 'silent', plugins: [ssJobs({ root })], server: { host: '127.0.0.1', port: 0, fs: { allow: [root, fileURLToPath(new URL('../../../..', import.meta.url))] } } });
+    const server = await createServer({ root, configFile: false, logLevel: 'silent', plugins: [ssJobs({ root: jobsRoot })], server: { host: '127.0.0.1', port: 0, fs: { allow: [directory, fileURLToPath(new URL('../../../..', import.meta.url))] } } });
     let browser;
     try {
       await server.listen();
@@ -107,7 +116,7 @@ worker.postMessage({type:'run', requestId:1, moduleUrl:'cpu', job:{}, args:{n:21
     } finally {
       await browser?.close();
       await server.close();
-      rmSync(root, { recursive: true, force: true });
+      rmSync(directory, { recursive: true, force: true });
     }
   }, 45_000);
 });
