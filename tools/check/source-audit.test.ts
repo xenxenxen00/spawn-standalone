@@ -40,11 +40,21 @@ it('audits every reachable historical blob even after a credential is removed fr
   const root = mkdtempSync(join(tmpdir(), 'public-source-audit-')); temporary.push(root);
   const git = (...args: string[]) => execFileSync('git', ['-C', root, ...args], { stdio: 'pipe' });
   git('init', '-q', '-b', 'main');
+  let parent: string | undefined;
+  const commitFixture = (): void => {
+    const tree = git('write-tree').toString().trim();
+    // Synthetic commit objects are test data and require no developer identity or Git configuration changes.
+    const data = [`tree ${tree}`, ...(parent ? [`parent ${parent}`] : []),
+      'author Audit fixture <audit@example.invalid> 0 +0000', 'committer Audit fixture <audit@example.invalid> 0 +0000',
+      '', 'Synthetic audit history', ''].join('\n');
+    parent = execFileSync('git', ['-C', root, 'hash-object', '-t', 'commit', '-w', '--stdin'], { input: data }).toString().trim();
+    git('update-ref', 'refs/heads/main', parent);
+  };
   const token = 'github_pat_' + 'x'.repeat(50);
   writeFileSync(join(root, 'example.js'), 'export const value = "' + token + '";');
-  git('add', 'example.js'); git('commit', '-q', '-m', 'Add synthetic audit control');
+  git('add', 'example.js'); commitFixture();
   writeFileSync(join(root, 'example.js'), 'export const value = 1;');
-  git('add', 'example.js'); git('commit', '-q', '-m', 'Remove synthetic audit control');
+  git('add', 'example.js'); commitFixture();
   const result = auditSource(root);
   expect(result.commits).toBe(2); expect(result.historyBlobs).toBe(2);
   expect(result.findings).toHaveLength(1); expect(result.findings[0]?.origin).toMatch(/^history:/);

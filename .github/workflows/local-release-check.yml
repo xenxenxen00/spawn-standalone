@@ -18,7 +18,7 @@ jobs:
         shell: pwsh
     env:
       VITEST_MAX_WORKERS: 1
-      PLAYWRIGHT_BROWSERS_PATH: ${{ runner.temp }}/playwright
+      PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/.cache/playwright
     steps:
       - uses: actions/checkout@v5
         with:

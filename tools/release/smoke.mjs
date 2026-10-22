@@ -5,10 +5,16 @@ import { createServer } from 'node:http';
 import { dirname, extname, join, resolve, sep } from 'node:path';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
+import { stripVTControlCharacters } from 'node:util';
 import { createFixtureExport } from '@spawn-standalone/testing';
 import { chromium } from '@playwright/test';
 import sharp from 'sharp';
 import { dependencyPaths } from './dependency-paths.ts';
+
+const devServerUrl = output => /http:\/\/localhost:\d+\//.exec(stripVTControlCharacters(output))?.[0];
+assert.equal(devServerUrl('Local: http://localhost:5173/'), 'http://localhost:5173/');
+assert.equal(devServerUrl('\u001b[36mhttp://localhost:\u001b[1m5173\u001b[22m/\u001b[39m'), 'http://localhost:5173/');
+assert.equal(devServerUrl('Local: http://localhost:51'), undefined);
 
 const require = createRequire(import.meta.url);
 const installed = dirname(fileURLToPath(import.meta.url));
@@ -77,7 +83,7 @@ try {
 const dev = spawn(process.execPath,[bin,'dev',game],{cwd:installed,windowsHide:true,stdio:['ignore','pipe','pipe']});
 let devOutput='';dev.stdout.on('data',b=>devOutput+=b);dev.stderr.on('data',b=>devOutput+=b);
 try {
- const url = await new Promise((yes,no)=>{const timer=setInterval(()=>{const match=/http:\/\/localhost:\d+\//.exec(devOutput);if(match){clearInterval(timer);clearTimeout(timeout);yes(match[0]);}},50);const timeout=setTimeout(()=>{clearInterval(timer);no(new Error('dev server did not start: '+devOutput));},30000);dev.once('error',no);});
+ const url = await new Promise((yes,no)=>{const timer=setInterval(()=>{const match=devServerUrl(devOutput);if(match){clearInterval(timer);clearTimeout(timeout);yes(match);}},50);const timeout=setTimeout(()=>{clearInterval(timer);no(new Error('dev server did not start: '+devOutput));},30000);dev.once('error',no);});
  await checkPage(url);console.log('PASS installed CLI dev: browser boot, UI action/state update, geometry/job workers, SQL, asset');
 } finally { dev.kill(); await new Promise(r=>dev.exitCode!==null||dev.signalCode!==null?r():dev.once('exit',r)); }
 

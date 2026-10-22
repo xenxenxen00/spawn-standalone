@@ -9,7 +9,7 @@
 //                           (a module Worker built by Vite's worker pipeline).
 //
 // Host wiring: createJobHost({ resolveModule: resolveJobModule, createWorker: () => wrapDomWorker(createJobWorker()) }).
-import { existsSync, readdirSync } from 'node:fs';
+import { existsSync, readdirSync, realpathSync } from 'node:fs';
 import { basename, extname, isAbsolute, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type { Plugin } from 'vite';
@@ -38,14 +38,14 @@ export function resolveJobEntries(options: Pick<JobsPluginOptions, 'root' | 'job
   for (const [id, rel] of Object.entries(options.jobs ?? {})) {
     const file = toPosix(isAbsolute(rel) ? rel : resolve(options.root, rel));
     if (!existsSync(file)) throw new Error(`jobs.${id}: ${rel} does not exist under ${options.root}`);
-    entries[id] = file;
+    entries[id] = toPosix(realpathSync.native(file));
   }
   const dir = join(options.root, 'jobs');
   if (options.discover !== false && existsSync(dir)) {
     for (const name of readdirSync(dir).sort()) {
       if (!['.js', '.mjs', '.ts'].includes(extname(name))) continue;
       const id = basename(name, extname(name));
-      if (!(id in entries)) entries[id] = toPosix(join(dir, name));
+      if (!(id in entries)) entries[id] = toPosix(realpathSync.native(join(dir, name)));
     }
   }
   return entries;
@@ -91,7 +91,8 @@ export function ssJobs(options: JobsPluginOptions): Plugin {
   const entries = resolveJobEntries(options);
   const runner = toPosix(options.runnerPath ?? DEFAULT_RUNNER);
   // Vite's dev worker URL must be a file-shaped id; null-byte virtual ids leak into /@fs/ URLs.
-  const workerId = toPosix(resolve(options.root, '__ss_job-worker__.js'));
+  // Use filesystem identities: Windows short names otherwise become unservable Vite import URLs.
+  const workerId = toPosix(resolve(realpathSync.native(options.root), '__ss_job-worker__.js'));
   let workerUrl: string | undefined;
   const bare = (id: string): string => id.split('?')[0]!;
   /** The resolve/load half. The worker bundle is a nested build with its own plugin list, so it needs this too. */
@@ -99,7 +100,7 @@ export function ssJobs(options: JobsPluginOptions): Plugin {
     name: 'ss-jobs-virtual',
     enforce: 'pre',
     configResolved(config) {
-      const path = toPosix(relative(config.root, workerId));
+      const path = toPosix(relative(realpathSync.native(config.root), workerId));
       if (!path.startsWith('../') && !isAbsolute(path)) workerUrl = '/' + path;
     },
     resolveId(id) {

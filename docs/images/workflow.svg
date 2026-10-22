@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 254" role="img" aria-labelledby="title desc">
+  <title id="title">From local export to standalone build</title>
+  <desc id="desc">Four steps: bring your export, check and adapt it, run it in the browser, then optionally package it for Playgama. Porting and platform testing remain the creator's responsibility.</desc>
+  <rect width="1280" height="254" rx="20" fill="#f5f2e9"/>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <g transform="translate(32 30)">
+      <rect width="272" height="194" rx="14" fill="#ffffff"/>
+      <text x="22" y="39" font-size="14" font-weight="700" fill="#52647a">01 / YOU BRING</text>
+      <path d="M22 66h25l8 8h28v37H22z" fill="#ffbf69"/>
+      <text x="22" y="143" font-size="23" font-weight="700" fill="#101b2c">A local export</text>
+      <text x="22" y="172" font-size="15" fill="#52647a">Your code, assets and metadata</text>
+    </g>
+    <g transform="translate(347 30)">
+      <rect width="272" height="194" rx="14" fill="#ffffff"/>
+      <text x="22" y="39" font-size="14" font-weight="700" fill="#52647a">02 / PORT</text>
+      <path d="M26 90l13 13 28-31" fill="none" stroke="#3e8765" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="22" y="143" font-size="23" font-weight="700" fill="#101b2c">Check and adapt</text>
+      <text x="22" y="172" font-size="15" fill="#52647a">Coverage, assets and game edits</text>
+    </g>
+    <g transform="translate(662 30)">
+      <rect width="272" height="194" rx="14" fill="#ffffff"/>
+      <text x="22" y="39" font-size="14" font-weight="700" fill="#52647a">03 / RUN</text>
+      <rect x="22" y="66" width="62" height="46" rx="5" fill="#dce5ff" stroke="#4c6bc2" stroke-width="2"/>
+      <path d="M22 78h62" stroke="#4c6bc2" stroke-width="2"/><path d="M47 86l14 8-14 8z" fill="#4c6bc2"/>
+      <text x="22" y="143" font-size="23" font-weight="700" fill="#101b2c">In your browser</text>
+      <text x="22" y="172" font-size="15" fill="#52647a">Local development or a web build</text>
+    </g>
+    <g transform="translate(977 30)">
+      <rect width="271" height="194" rx="14" fill="#101b2c"/>
+      <text x="22" y="39" font-size="14" font-weight="700" fill="#8be9bf">04 / PACKAGE</text>
+      <path d="M23 79l27-14 27 14v29H23z" fill="#8be9bf"/><path d="M23 79h54M50 65v43" stroke="#101b2c" stroke-width="2"/>
+      <text x="22" y="143" font-size="23" font-weight="700" fill="#f5f2e9">For Playgama</text>
+      <text x="22" y="172" font-size="15" fill="#b8c6d9">Archive, covers and local checks</text>
+    </g>
+  </g>
+  <g stroke="#52647a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M314 127h22m-7-6l7 6-7 6M629 127h22m-7-6l7 6-7 6M944 127h22m-7-6l7 6-7 6"/></g>
+</svg>

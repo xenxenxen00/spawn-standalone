@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 480" role="img" aria-labelledby="title desc">
+  <title id="title">spawn-standalone: your game, on your terms</title>
+  <desc id="desc">An original abstract illustration of a browser window and a three-dimensional cube. A local export becomes a standalone HTML5 build.</desc>
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#243248" stroke-width="1"/></pattern>
+  </defs>
+  <rect width="1280" height="480" rx="24" fill="#101b2c"/>
+  <rect x="730" y="0" width="550" height="480" rx="24" fill="url(#grid)"/>
+  <path d="M56 64h20v20H56z" fill="#8be9bf"/><path d="M64 56h20v20H64z" fill="none" stroke="#8be9bf" stroke-width="2"/>
+  <text x="102" y="80" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#f5f2e9">spawn-standalone</text>
+  <text x="56" y="135" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" letter-spacing="2" fill="#8be9bf">LOCAL EXPORTS / OPEN SOURCE / HTML5</text>
+  <text x="52" y="220" font-family="Arial, Helvetica, sans-serif" font-size="74" font-weight="700" letter-spacing="-3" fill="#f5f2e9">Your game.</text>
+  <text x="52" y="299" font-family="Arial, Helvetica, sans-serif" font-size="74" font-weight="700" letter-spacing="-3" fill="#f5f2e9">On your terms.</text>
+  <text x="56" y="348" font-family="Arial, Helvetica, sans-serif" font-size="21" fill="#b8c6d9">A browser runtime for Spawn-compatible exports.</text>
+  <g font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" text-anchor="middle">
+    <rect x="56" y="389" width="110" height="34" rx="17" fill="#233449"/><text x="111" y="411" fill="#f5f2e9">three.js r186</text>
+    <rect x="178" y="389" width="110" height="34" rx="17" fill="#233449"/><text x="233" y="411" fill="#f5f2e9">Rapier 0.21</text>
+    <rect x="300" y="389" width="100" height="34" rx="17" fill="#8be9bf"/><text x="350" y="411" fill="#101b2c">MIT license</text>
+  </g>
+  <rect x="808" y="89" width="398" height="308" rx="16" fill="#18273b" stroke="#5b6f89" stroke-width="2"/>
+  <path d="M808 132h398" stroke="#5b6f89" stroke-width="2"/>
+  <circle cx="830" cy="111" r="4" fill="#ffbf69"/><circle cx="846" cy="111" r="4" fill="#8be9bf"/><circle cx="862" cy="111" r="4" fill="#6c8fff"/>
+  <text x="1184" y="116" text-anchor="end" font-family="Arial, Helvetica, sans-serif" font-size="12" letter-spacing="1" fill="#b8c6d9">STANDALONE BUILD</text>
+  <path d="M853 333l149-86 149 86-149 85z" fill="#101b2c" stroke="#3b526e"/>
+  <path d="M1002 174l90 52-90 52-90-52z" fill="#b4f4d5" stroke="#101b2c" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M912 226l90 52v105l-90-52z" fill="#6c8fff" stroke="#101b2c" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M1002 278l90-52v105l-90 52z" fill="#8be9bf" stroke="#101b2c" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M1002 174v104m-90-52l180 105m0-105L912 331" fill="none" stroke="#101b2c" stroke-width="2" opacity="0.18"/>
+  <rect x="754" y="303" width="121" height="44" rx="8" fill="#ffbf69"/>
+  <text x="814" y="330" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#101b2c">YOUR EXPORT</text>
+  <path d="M875 325h23m-7-7l7 7-7 7" fill="none" stroke="#ffbf69" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
